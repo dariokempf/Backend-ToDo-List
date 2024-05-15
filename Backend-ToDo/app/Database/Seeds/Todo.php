@@ -10,11 +10,11 @@ class Todo extends Seeder
     {
         $example_data = [
             [
-                'user_id' => 69,
-                'titel' => 'Do homework',
-                'content' => 'work on CodeIgniter Project for Wednesday',
-                'tag' => 'School',
-                'done' => true,
+                'user_id' => 1,
+                'titel' => 'Gaming',
+                'content' => 'Play Fortnite for 10 hours strate',
+                'tag' => 'FreeTime',
+                'done' => false,
                 'created_at' => ['created_at' => date('Y-m-d H:i:s')],
                 'updated_at' => ['updated_at' => date('Y-m-d H:i:s')],
             ]
@@ -22,5 +22,12 @@ class Todo extends Seeder
 
             $TodoModel = new \App\Models\Todo();
 
+            foreach ($example_data as $entry_id => $data) {
+                if ($TodoModel->insert($data) === false) {
+                    echo "Errors on entry_id ${entry_id}:\n";
+                    print_r($TodoModel->errors());
+
+           }
+        }
     }
 }
