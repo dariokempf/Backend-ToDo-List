@@ -35,76 +35,76 @@ class TodoController extends ResourceController
         return $this->failNotFound();
     }
 
-    // public function create()
-    // {
+    public function create()
+    {
 
-//         $data = $this->request->getJSON(true);
+        $data = $this->request->getJSON(true);
 
-//         if (!empty($data)) {
+        if (!empty($data)) {
 
-//             $data['created_at'] = date('Y-m-d H:i:s');
-//             $data['updated_at'] = date('Y-m-d H:i:s');
+            $data['created_at'] = date('Y-m-d H:i:s');
+            $data['updated_at'] = date('Y-m-d H:i:s');
 
-//             $new_id = $this->model->insert($data);
+            $new_id = $this->model->insert($data);
 
-//             if ($new_id === false) {
-//                 return $this->failValidationErrors($this->model->errors());
-//             } else {
-//                 return $this->respondCreated(['id' => $new_id] + $data);
-//             }
-//         }
-
-
-//         // Fehler zurückgeben, wenn das Einfügen fehlgeschlagen ist oder keine Daten übergeben wurden
-//         return $this->failNotFound();
-//     }
-
-//     public function update($id = null)
-// {
-//     if (empty($id)) {
-//         return $this->failValidationError('Missing ID');
-//     }
-
-//     $data = $this->request->getJSON(true);
-
-//     if (!empty($data)) {
-//         $data['updated_at'] = date('Y-m-d H:i:s');
-
-//         $success = $this->model->update($id, $data);
-
-//         if (!$success) {
-//             return $this->failValidationErrors($this->model->errors());
-//         } else {
-//             $updatedData = $this->model->find($id);
-//             return $this->respondUpdated($updatedData);
-//         }
-//     }
-
-//     return $this->failNotFound();
-// }
-
-// public function delete($id = null)
-//     {
-
-//         if (!empty($id)) {
-//             $data_exists = $this->model->find($id);
+            if ($new_id === false) {
+                return $this->failValidationErrors($this->model->errors());
+            } else {
+                return $this->respondCreated(['id' => $new_id] + $data);
+            }
+        }
 
 
-//             if (!empty($data_exists)) {
+        // Fehler zurückgeben, wenn das Einfügen fehlgeschlagen ist oder keine Daten übergeben wurden
+        return $this->failNotFound();
+    }
 
-//                 $delete_status = $this->model->delete($id);
+    public function update($id = null)
+{
+    if (empty($id)) {
+        return $this->failValidationError('Missing ID');
+    }
 
-//                 if ($delete_status === true) {
-//                     return $this->respondDeleted(['id' => $id]);
+    $data = $this->request->getJSON(true);
 
-//                 }
+    if (!empty($data)) {
+        $data['updated_at'] = date('Y-m-d H:i:s');
 
-//             } else {
-//                 return $this->failNotFound();
-//             }
+        $success = $this->model->update($id, $data);
 
-//         }
-//     }
+        if (!$success) {
+            return $this->failValidationErrors($this->model->errors());
+        } else {
+            $updatedData = $this->model->find($id);
+            return $this->respondUpdated($updatedData);
+        }
+    }
+
+    return $this->failNotFound();
+}
+
+public function delete($id = null)
+    {
+
+        if (!empty($id)) {
+            $data_exists = $this->model->find($id);
+
+
+            if (!empty($data_exists)) {
+
+                $delete_status = $this->model->delete($id);
+
+                if ($delete_status === true) {
+                    return $this->respondDeleted(['id' => $id]);
+
+                }
+
+            } else {
+                return $this->failNotFound();
+            }
+
+        }
+    }
 
 
 
