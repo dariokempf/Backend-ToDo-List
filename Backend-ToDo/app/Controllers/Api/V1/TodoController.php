@@ -12,28 +12,32 @@ class TodoController extends ResourceController
 
     public function index()
     {
-        $all_data = $this->model->findAll();
-
+        // Zusatzparameter aus der URL abrufen
+        $limit = $this->request->getVar('limit') ?? 10;
+        $page = $this->request->getVar('page') ?? 1;
+        $orderBy = $this->request->getVar('order_by') ?? 'id';
+    
+        // Daten mit Pagination und Sortierung abrufen
+        $all_data = $this->model->orderBy($orderBy)->paginate($limit, 'default', $page);
+    
         if (!empty($all_data)) {
             return $this->respond($all_data);
-
         }
-
+    
         return $this->failNotFound();
     }
-
+    
     public function show($id = null)
     {
-
         if (!empty($id)) {
             $data = $this->model->find($id);
-            if (!empty($id)) {
+            if (!empty($data)) {
                 return $this->respond($data);
-
             }
         }
         return $this->failNotFound();
     }
+    
 
     public function create()
     {
@@ -105,6 +109,9 @@ public function delete($id = null)
 
         }
     }
+
+    //check status id
+
 
 
 
