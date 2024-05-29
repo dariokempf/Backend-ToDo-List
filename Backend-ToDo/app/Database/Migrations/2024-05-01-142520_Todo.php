@@ -14,7 +14,6 @@ class Todo extends Migration
             `user_id` INT(11),
             `titel` VARCHAR(255),
             `content` VARCHAR(255),
-            `tag_id` INT(11),
             `tag` TEXT,
             `done` BOOLEAN,
             `created_at` DATETIME,
