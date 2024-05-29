@@ -11,29 +11,32 @@ class TodoController extends ResourceController
     protected $format = 'json';
 
     public function index()
-    {
-        $all_data = $this->model->findAll();
+{
+    // Zusatzparameter aus der URL abrufen
+    $limit = $this->request->getVar('limit') ?? 10;
+    $page = $this->request->getVar('page') ?? 1;
+    $orderBy = $this->request->getVar('order_by') ?? 'id';
 
-        if (!empty($all_data)) {
-            return $this->respond($all_data);
+    // Daten mit Pagination und Sortierung abrufen
+    $all_data = $this->model->orderBy($orderBy)->paginate($limit, 'default', $page);
 
-        }
-
-        return $this->failNotFound();
+    if (!empty($all_data)) {
+        return $this->respond($all_data);
     }
 
-    public function show($id = null)
-    {
+    return $this->failNotFound();
+}
 
-        if (!empty($id)) {
-            $data = $this->model->find($id);
-            if (!empty($id)) {
-                return $this->respond($data);
-
-            }
+public function show($id = null)
+{
+    if (!empty($id)) {
+        $data = $this->model->find($id);
+        if (!empty($data)) {
+            return $this->respond($data);
         }
-        return $this->failNotFound();
     }
+    return $this->failNotFound();
+}
 
     public function create()
     {
