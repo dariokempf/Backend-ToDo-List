@@ -13,12 +13,21 @@ class TodoController extends ResourceController
     public function index()
 {
     // Zusatzparameter aus der URL abrufen
-    $limit = $this->request->getVar('limit') ?? 10;
-    $page = $this->request->getVar('page') ?? 1;
-    $orderBy = $this->request->getVar('order_by') ?? 'id';
+    $limit = $this->request->getVar('limit') ?? 10;                 //zum abfragen(mit seitenzahlen)    {{local}}/TodoController?limit=2&page=1
+    $page = $this->request->getVar('page') ?? 1;                    //zum abfragen (hochählen)          {{local}}/TodoController?order_by_id
+    $orderBy = $this->request->getVar('order_by') ?? 'id';          //zum abfragen (runterzählen)       {{local}}/TodoController?order_by=id&order_direction=desc
+    $tag = $this->request->getVar('tag'); // Neuer Parameter für den Tag
 
-    // Daten mit Pagination und Sortierung abrufen
-    $all_data = $this->model->orderBy($orderBy)->paginate($limit, 'default', $page);
+    // Query Builder instanziieren
+    $query = $this->model->orderBy($orderBy);
+
+    // Filterung nach Tag, falls vorhanden
+    if (!empty($tag)) {
+        $query->where('tag', $tag);
+    }
+
+    // Daten mit Pagination abrufen
+    $all_data = $query->paginate($limit, 'default', $page);
 
     if (!empty($all_data)) {
         return $this->respond($all_data);
@@ -26,6 +35,9 @@ class TodoController extends ResourceController
 
     return $this->failNotFound();
 }
+
+    
+    
 
 public function show($id = null)
 {
