@@ -41,7 +41,8 @@ $RECYCLE.BIN/
 #-------------------------
 # These should never be under version control,
 # as it poses a security risk.
-.env
+#.env 
+# this is not for production, so i hope its ok to remove .env from gitignore
 .vagrant
 Vagrantfile
 
